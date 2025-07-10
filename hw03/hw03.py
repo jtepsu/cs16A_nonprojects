@@ -67,6 +67,11 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    total_distance = 0
+    if n < 10:
+        return 0
+    else:
+        return digit_distance(n // 10) + abs((n % 10) - ((n // 10) % 10))
 
 
 def interleaved_sum(n, odd_func, even_func):
@@ -89,6 +94,15 @@ def interleaved_sum(n, odd_func, even_func):
     True
     """
     "*** YOUR CODE HERE ***"
+    def f(k):
+        if n - k >= 2:
+            return odd_func(k) + even_func(k + 1) + f(k + 2)
+        elif n - k == 1:
+            return odd_func(k) + even_func(k + 1)
+        elif n == k:
+            return odd_func(k)
+    return f(1)
+    
 
 
 def next_larger_coin(coin):
@@ -143,7 +157,37 @@ def count_coins(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    # def f(current):
+    #     if current == total:
+    #         return 1
+    #     elif total - current == 1:
+    #         return 1
+    #     elif total - current < 5:
+    #         return 1 + f(current + 1)
+    #     elif total - current < 10:
+    #         return (1 + f(current + 1)) + (1 + f(current + 5))
+    #     elif total - current < 25:
+    #         return (1 + f(current + 1)) + (1 + f(current + 5)) + (1 + f(current + 10))
+    #     else:
+    #         return (1 + f(current + 1)) + (1 + f(current + 5)) + (1 + f(current + 10)) + (1 + f(current + 25))
 
+    def f(current):
+        if total - current < 5:
+            return 1
+        else:
+            pass
+    return f(0)
+
+"""
+15 1-cent coins
+10 1-cent, 1 5-cent coins
+5 1-cent, 2 5-cent coins
+5 1-cent, 1 10-cent coins
+3 5-cent coins
+1 5-cent, 1 10-cent coin
+"""
+
+print(count_coins(15))
 
 def print_move(origin, destination):
     """Print instructions to move a disk."""
