@@ -157,37 +157,16 @@ def count_coins(total):
     True
     """
     "*** YOUR CODE HERE ***"
-    # def f(current):
-    #     if current == total:
-    #         return 1
-    #     elif total - current == 1:
-    #         return 1
-    #     elif total - current < 5:
-    #         return 1 + f(current + 1)
-    #     elif total - current < 10:
-    #         return (1 + f(current + 1)) + (1 + f(current + 5))
-    #     elif total - current < 25:
-    #         return (1 + f(current + 1)) + (1 + f(current + 5)) + (1 + f(current + 10))
-    #     else:
-    #         return (1 + f(current + 1)) + (1 + f(current + 5)) + (1 + f(current + 10)) + (1 + f(current + 25))
 
-    def f(current):
-        if total - current < 5:
+    def f(current, coin):
+        if (current > total) or (coin == None):
+            return 0
+        elif current == total:
             return 1
         else:
-            pass
-    return f(0)
+            return f(current + coin, coin) + f(current, next_larger_coin(coin))
+    return f(0, 1)
 
-"""
-15 1-cent coins
-10 1-cent, 1 5-cent coins
-5 1-cent, 2 5-cent coins
-5 1-cent, 1 10-cent coins
-3 5-cent coins
-1 5-cent, 1 10-cent coin
-"""
-
-print(count_coins(15))
 
 def print_move(origin, destination):
     """Print instructions to move a disk."""

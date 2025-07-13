@@ -36,7 +36,6 @@ def hailstone(n):
         steps += hailstone((n * 3) + 1)
     return steps
 
-# print(hailstone(10))
 
 # Q5
 def has_seven(n):
@@ -52,15 +51,21 @@ def has_seven(n):
         return False
 
 def sevens(n, k):
-    i = 1
-    who = 1
-    direction = 1
-    print(f"Player {who} says {i}.")
-    if has_seven(i):
-        direction = direction * (-1)
-    i += 1
-    if i == n:
-        sevens(n, k)
 
+    def play(i=1, who=1, direction=1):
+        print(f"Player {who} says {i}")
+        if i < n:
+            if has_seven(i + 1):
+                direction = direction * (-1)
+            if (who + direction) > k:
+                return play(i+1, 1, direction)
+            elif (who + direction) == 0:
+                return play(i+1, k, direction)
+            else:
+                return play(i+1, who + direction, direction)
+        else:
+            return who
+        
+    return play()
         
 
