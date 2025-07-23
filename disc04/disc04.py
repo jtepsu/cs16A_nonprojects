@@ -28,27 +28,30 @@ def max_product(numlist=[]):
 # Q3: Sum Fun​
 
 def sums(n, m):
-    def build_list(k, j, kList):
-        result = []
+    def build_list(k, j, kList, result):
         if k > m:
             return result
         if j > m:
-            return result.append(build_list(k+1, 1, kList))
-        if kList is None:
-            kList = []
-        if sum(kList) + j <= n - k:
-            newKList = kList.append(j)
-            if sum(kList) == n:
-                result.append([k] + newKList)
-                result.append(build_list(k+1, j, newKList))
-            else:
-                result.append(build_list(k, 1, newKList))
-            result.append(build_list(k, j+1, kList))
+            return result + (build_list(k+1, 1, [], result))
+        if kList == [] and k == j:
+            build_list(k, j+1, [], result)
         else:
-            result.append(build_list(k+1, 1, kList))
+            if sum(kList) + j <= n - k:
+                if (kList == [] and k != j) or j != kList[-1]:
+                    newKList = kList + [j]
+                    if sum(newKList) == n - k:
+                        result.append([k] + newKList)
+                    else:
+                        build_list(k, 1, newKList, result)
+                build_list(k, j+1, kList, result)
+            else:
+                build_list(k+1, 1, kList, result)
         return result
-    return build_list(1, 1, [])
-# doesn't work
-# RecursionError: maximum recursion depth exceeded in comparison
+    return build_list(1, 1, [], [])
+
+print(sums(5, 3))
+
+# almost works
+# test case fails: first element of output list is [2, 2, 1] for some reason
             
 
