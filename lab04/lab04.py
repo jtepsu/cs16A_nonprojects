@@ -24,17 +24,27 @@ def buy(required_fruits, prices, total_amount):
     [6 apples][2 kiwis]
     [9 apples][1 kiwi]
     """
+#     def add(fruits, amount, cart):
+#         if fruits == [] and amount == 0:
+#             print(cart)
+#         elif fruits and amount > 0:
+#             fruit = fruits[0]
+#             price = lambda x: prices[x]
+#             for k in fruits:
+#                 add(fruits.remove(k), amount - price(k), cart + display(k, 1))
+#     add(required_fruits, total_amount, '')
+# # doesn't work
+
     def add(fruits, amount, cart):
-        if fruits == [] and amount == 0:
+        if fruits == [] and amount == 0:    
             print(cart)
-        elif fruits and amount > 0:
-            fruit = fruits[0]
-            price = lambda x: prices[x]
-            for k in fruits:
-                add(fruits.remove(k), amount - price(k), cart + display(k, 1))
+        elif fruits and amount > 0: 
+            fruit = fruits[0]   
+            price = prices[fruit]    # edit
+            for k in range(1, amount):  #edit
+                add(fruits[1:], amount - (price * k), cart + display(fruit, k)) # edit
     add(required_fruits, total_amount, '')
 
-# doesn't work
 
 def display(fruit, count):
     """Display a count of a fruit in square brackets.
