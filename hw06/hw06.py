@@ -1,5 +1,46 @@
 passphrase = 'allegoryofthecave'
 
+class Link:
+    """A linked list.
+
+    >>> s = Link(1)
+    >>> s.first
+    1
+    >>> s.rest is Link.empty
+    True
+    >>> s = Link(2, Link(3, Link(4)))
+    >>> s.first = 5
+    >>> s.rest.first = 6
+    >>> s.rest.rest = Link.empty
+    >>> s                                    # Displays the contents of repr(s)
+    Link(5, Link(6))
+    >>> s.rest = Link(7, Link(Link(8, Link(9))))
+    >>> s
+    Link(5, Link(7, Link(Link(8, Link(9)))))
+    >>> print(s)                             # Prints str(s)
+    <5 7 <8 9>>
+    """
+    empty = ()
+
+    def __init__(self, first, rest=empty):
+        assert rest is Link.empty or isinstance(rest, Link)
+        self.first = first
+        self.rest = rest
+
+    def __repr__(self):
+        if self.rest is not Link.empty:
+            rest_repr = ', ' + repr(self.rest)
+        else:
+            rest_repr = ''
+        return 'Link(' + repr(self.first) + rest_repr + ')'
+
+    def __str__(self):
+        string = '<'
+        while self.rest is not Link.empty:
+            string += str(self.first) + ' '
+            self = self.rest
+        return string + str(self.first) + '>'
+    
 def midsem_survey(p):
     """
     You do not need to understand this code.
@@ -100,6 +141,12 @@ def store_digits(n):
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     """
     "*** YOUR CODE HERE ***"
+    result = Link.empty
+    while n > 0:
+        result = Link(n % 10, result)
+        n //= 10
+    return result
+    
 
 
 def deep_map_mut(func, lnk):
@@ -122,6 +169,14 @@ def deep_map_mut(func, lnk):
     <9 <16> 25 36>
     """
     "*** YOUR CODE HERE ***"
+    next = lnk
+    while not next == Link.empty:
+        if isinstance(next.first, Link):
+            next.first.first = func(next.first.first)
+        else:
+            next.first = func(next.first)
+        next = next.rest
+    
 
 
 def two_list(vals, counts):
@@ -143,46 +198,16 @@ def two_list(vals, counts):
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
     "*** YOUR CODE HERE ***"
+    result = Link(vals[0])
+    counts[0] -= 1
+    next = result
+    for v in range(len(vals)):
+        for c in range(counts[v]):
+            next.rest = Link(vals[v])
+            next = next.rest
+    return result
 
-
-class Link:
-    """A linked list.
-
-    >>> s = Link(1)
-    >>> s.first
-    1
-    >>> s.rest is Link.empty
-    True
-    >>> s = Link(2, Link(3, Link(4)))
-    >>> s.first = 5
-    >>> s.rest.first = 6
-    >>> s.rest.rest = Link.empty
-    >>> s                                    # Displays the contents of repr(s)
-    Link(5, Link(6))
-    >>> s.rest = Link(7, Link(Link(8, Link(9))))
-    >>> s
-    Link(5, Link(7, Link(Link(8, Link(9)))))
-    >>> print(s)                             # Prints str(s)
-    <5 7 <8 9>>
-    """
-    empty = ()
-
-    def __init__(self, first, rest=empty):
-        assert rest is Link.empty or isinstance(rest, Link)
-        self.first = first
-        self.rest = rest
-
-    def __repr__(self):
-        if self.rest is not Link.empty:
-            rest_repr = ', ' + repr(self.rest)
-        else:
-            rest_repr = ''
-        return 'Link(' + repr(self.first) + rest_repr + ')'
-
-    def __str__(self):
-        string = '<'
-        while self.rest is not Link.empty:
-            string += str(self.first) + ' '
-            self = self.rest
-        return string + str(self.first) + '>'
+a = [1, 3]
+b = [1, 1]
+c = two_list(a, b)
 
