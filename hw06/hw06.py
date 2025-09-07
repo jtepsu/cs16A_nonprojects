@@ -207,7 +207,3 @@ def two_list(vals, counts):
             next = next.rest
     return result
 
-a = [1, 3]
-b = [1, 1]
-c = two_list(a, b)
-
