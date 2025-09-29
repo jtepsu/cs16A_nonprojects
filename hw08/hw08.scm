@@ -29,24 +29,39 @@
     )
 )
 
+; (define (no-repeats s)
+;     (let
+;         (
+;             (safe_s (if (atom? s) (cons s nil) s))
+;             (check_repeats
+;                 (lambda (reps n) 
+;                     (if (null? reps)
+;                         #f 
+;                         (if (not (= n (car reps))) (check_repeats (cdr reps) n) #t)
+;                     )
+;                 )
+;             )
+;         )
+;         (if (null? safe_s) #t 
+;             (if (check_repeats (cdr safe_s) (car safe_s))
+;                 (no-repeats (cdr safe_s))
+;                 (append (car safe_s) (no-repeats (cdr safe_s)))
+;             )
+;         )
+;     )
+; )
+
+; try using helper function
+
 (define (no-repeats s)
-    (let
-        (
-            (safe_s (if (atom? s) (cons s nil) s))
-            (check_repeats
-                (lambda (reps n) 
-                    (if (null? reps)
-                        #f 
-                        (if (not (= n (car reps))) (check_repeats (cdr reps) n) #t)
-                    )
-                )
-            )
+(define (nr s ulist ulist2)
+        (if (null? s) nil
+            (if (null? ulist2)
+                (cons (car s) (nr (cdr s) (cons (car s) ulist) (cons (car s) ulist)))
+                (if (= (car s) (car ulist2))
+                    (nr (cdr s) ulist ulist)
+                    (nr s ulist (cdr ulist2))))
         )
-        (if (null? safe_s) #t 
-            (if (check_repeats (cdr safe_s) (car safe_s))
-                (no-repeats (cdr safe_s))
-                (append (car safe_s) (no-repeats (cdr safe_s)))
-            )
-        )
-    )
+)
+(nr s nil nil)
 )
